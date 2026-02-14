@@ -1,27 +1,151 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="en">
-
 <head>
-<link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 width=%22256%22 height=%22256%22 viewBox=%220 0 100 100%22><rect width=%22100%22 height=%22100%22 rx=%2250%22 fill=%22%230058ff%22></rect><path fill=%22%23fff%22 d=%22M72.15 21.33L72.15 21.33Q74.49 22.50 74.90 25.02Q75.30 27.54 73.59 29.61L73.59 29.61Q72.42 31.23 70.58 31.41Q68.73 31.59 66.84 30.69L66.84 30.69Q64.68 29.70 62.30 29.16Q59.91 28.62 57.30 28.62L57.30 28.62Q52.44 28.62 48.62 30.15Q44.79 31.68 42.09 34.52Q39.39 37.35 38.00 41.22Q36.60 45.09 36.60 49.77L36.60 49.77Q36.60 55.26 38.18 59.31Q39.75 63.36 42.54 66.06Q45.33 68.76 49.11 70.07Q52.89 71.37 57.30 71.37L57.30 71.37Q59.73 71.37 62.16 70.92Q64.59 70.47 66.84 69.30L66.84 69.30Q68.73 68.40 70.58 68.67Q72.42 68.94 73.68 70.56L73.68 70.56Q75.48 72.81 74.99 75.20Q74.49 77.58 72.24 78.66L72.24 78.66Q69.90 79.83 67.43 80.60Q64.95 81.36 62.43 81.77Q59.91 82.17 57.30 82.17L57.30 82.17Q50.82 82.17 45.02 80.10Q39.21 78.03 34.67 73.98Q30.12 69.93 27.51 63.86Q24.90 57.78 24.90 49.77L24.90 49.77Q24.90 42.84 27.29 36.99Q29.67 31.14 34.04 26.87Q38.40 22.59 44.34 20.21Q50.28 17.82 57.30 17.82L57.30 17.82Q61.26 17.82 65.04 18.72Q68.82 19.62 72.15 21.33Z%22></path></svg>" />
-<meta charset="UTF-8">
-<meta http-equiv=“Pragma” content=”no-cache”>
-<meta http-equiv=“Expires” content=”-1″>
-<meta http-equiv=“CACHE-CONTROL” content=”NO-CACHE”>
-<!-- CSS Stylesheets -->
-<link rel="stylesheet" href="css/master.css">
-
-<title>Portfolio Project</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>My Roller Portfolio</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background: linear-gradient(45deg, #ff6b6b, #4ecdc4, #45b7d1, #f9ca24);
+            background-size: 400% 400%;
+            animation: gradientShift 10s ease infinite;
+            color: #333;
+            overflow-x: hidden;
+        }
+        @keyframes gradientShift {
+            0% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+            100% { background-position: 0% 50%; }
+        }
+        header {
+            text-align: center;
+            padding: 50px 20px;
+            background: rgba(255, 255, 255, 0.9);
+            box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+        }
+        h1 { color: #ff6b6b; font-size: 2.5em; }
+        section {
+            min-height: 100vh;
+            padding: 50px 20px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            scroll-behavior: smooth;
+        }
+        .portfolio-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 20px;
+            width: 100%;
+            max-width: 1200px;
+        }
+        .item {
+            background: rgba(255, 255, 255, 0.9);
+            border-radius: 10px;
+            padding: 20px;
+            text-align: center;
+            box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+            transition: transform 0.3s, box-shadow 0.3s;
+            cursor: pointer;
+        }
+        .item:hover { transform: scale(1.05); box-shadow: 0 8px 16px rgba(0,0,0,0.2); }
+        .item img { max-width: 100%; height: auto; border-radius: 5px; }
+        .item button { background: #ff6b6b; color: white; border: none; padding: 5px 10px; border-radius: 5px; cursor: pointer; margin-top: 10px; }
+        .item button:hover { background: #d63031; }
+        #add-form {
+            background: rgba(255, 255, 255, 0.9);
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+            max-width: 400px;
+            width: 100%;
+        }
+        #add-form input, #add-form button { display: block; width: 100%; margin: 10px 0; padding: 10px; border-radius: 5px; border: 1px solid #ccc; }
+        #add-form button { background: #4ecdc4; color: white; border: none; cursor: pointer; }
+        #add-form button:hover { background: #26a69a; }
+        @media (max-width: 768px) {
+            h1 { font-size: 2em; }
+            section { padding: 30px 10px; }
+            .portfolio-grid { grid-template-columns: 1fr; }
+        }
+    </style>
 </head>
-
 <body>
+    <header>
+        <h1>My Roller Portfolio</h1>
+        <p>Scroll through my colorful world!</p>
+    </header>
+    <section id="portfolio">
+        <h2>Portfolio Items</h2>
+        <div class="portfolio-grid" id="portfolio-grid"></div>
+    </section>
+    <section id="add-section">
+        <h2>Add New Item</h2>
+        <form id="add-form">
+            <label for="title">Title:</label>
+            <input type="text" id="title" required aria-label="Item title">
+            <label for="file">Upload Image or Doc (PDF/Image):</label>
+            <input type="file" id="file" accept="image/*,.pdf" required aria-label="Upload file">
+            <button type="submit">Add Item</button>
+        </form>
+    </section>
 
-   <h1>Portfolio Project</h1>
+    <script>
+        const portfolioGrid = document.getElementById('portfolio-grid');
+        const addForm = document.getElementById('add-form');
 
+        // Load items from localStorage
+        function loadItems() {
+            portfolioGrid.innerHTML = '';
+            const items = JSON.parse(localStorage.getItem('portfolioItems') || '[]');
+            items.forEach((item, index) => {
+                const div = document.createElement('div');
+                div.className = 'item';
+                div.innerHTML = `
+                    <h3>${item.title}</h3>
+                    ${item.type === 'image' ? `<img src="${item.data}" alt="${item.title}">` : `<a href="${item.data}" download="${item.title}.pdf">Download ${item.title}</a>`}
+                    <button onclick="removeItem(${index})">Remove</button>
+                `;
+                portfolioGrid.appendChild(div);
+            });
+        }
+
+        // Add item
+        addForm.addEventListener('submit', (e) => {
+            e.preventDefault();
+            const title = document.getElementById('title').value;
+            const file = document.getElementById('file').files[0];
+            if (file) {
+                const reader = new FileReader();
+                reader.onload = () => {
+                    const items = JSON.parse(localStorage.getItem('portfolioItems') || '[]');
+                    items.push({
+                        title,
+                        data: reader.result,
+                        type: file.type.startsWith('image/') ? 'image' : 'doc'
+                    });
+                    localStorage.setItem('portfolioItems', JSON.stringify(items));
+                    loadItems();
+                    addForm.reset();
+                };
+                reader.readAsDataURL(file);
+            }
+        });
+
+        // Remove item
+        function removeItem(index) {
+            const items = JSON.parse(localStorage.getItem('portfolioItems') || '[]');
+            items.splice(index, 1);
+            localStorage.setItem('portfolioItems', JSON.stringify(items));
+            loadItems();
+        }
+
+        // Initial load
+        loadItems();
+    </script>
 </body>
-
-<footer>
-    <p class="copyright-text">© Copyright 2023 _______ </p>
-</footer>
-
-<!-- Our codes -->
-<script src="js/main.js"></script>
+</html>
